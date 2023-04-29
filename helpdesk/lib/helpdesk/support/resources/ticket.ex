@@ -1,11 +1,39 @@
 defmodule Helpdesk.Support.Ticket do
   # This turns this module into a resource
   use Ash.Resource,
-    data_layer: AshPostgres.DataLayer
+    data_layer: AshPostgres.DataLayer,
+    extensions: [
+      AshGraphql.Resource
+    ]
 
   postgres do
     table("ticket")
     repo(Helpdesk.Repo)
+  end
+
+  graphql do
+    type(:ticket)
+
+    queries do
+      # Examples
+
+      # create a field called `get_ticket` that uses the `read` read action to fetch a single ticke
+      get(:get_ticket, :read)
+
+      # create a field called `most_important_ticket` that uses the `most_important` read action to fetch a single record
+      # read_one(:most_important_ticket, :most_important)
+
+      # create a field called `list_tickets` that uses the `read` read action to fetch a list of tickets
+      list(:list_tickets, :read)
+    end
+
+    mutations do
+      # Examples
+
+      create(:create_ticket, :create)
+      update(:update_ticket, :update)
+      destroy(:destroy_ticket, :destroy)
+    end
   end
 
   actions do

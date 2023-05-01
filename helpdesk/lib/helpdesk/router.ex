@@ -6,11 +6,15 @@ defmodule Helpdesk.Router do
   plug(Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json, Absinthe.Plug.Parser],
     pass: ["*/*"],
-    json_decoder: Poison
+    json_decoder: Jason
   )
 
   plug(:match)
   plug(:dispatch)
+
+  forward("/auth",
+    to: Helpdesk.AuthPlug
+  )
 
   forward("/playground",
     to: Absinthe.Plug.GraphiQL,

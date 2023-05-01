@@ -12,17 +12,14 @@ defmodule Helpdesk.Application do
     port = String.to_integer(System.get_env("PORT") || "4000")
 
     children = [
-      # Starts a worker by calling: Helpdesk.Worker.start_link(arg)
-      # {Helpdesk.Worker, arg}
       Helpdesk.Repo,
       {Plug.Cowboy,
        scheme: :http,
        plug: Helpdesk.Router,
-       options: [port: port]}
+       options: [port: port]},
+       {AshAuthentication.Supervisor, otp_app: :my_app}
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Helpdesk.Supervisor]
 
     Logger.info("Starting application, visit: http://localhost:#{port}")

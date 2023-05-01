@@ -7,7 +7,7 @@ config :ash, :use_all_identities_in_manage_relationship?, false
 config :ash_graphql, :default_managed_relationship_type_name_template, :action_name
 
 config :helpdesk,
-  ash_apis: [Helpdesk.Support]
+  ash_apis: [Helpdesk.Support, Helpdesk.Account]
 
 config :helpdesk,
   ecto_repos: [Helpdesk.Repo]
